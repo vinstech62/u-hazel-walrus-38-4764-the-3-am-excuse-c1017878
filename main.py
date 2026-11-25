@@ -26,7 +26,8 @@ def main() -> None:
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8", newline="") as f:
         f.write(EXCUSE)
-    # Post-write guard: what landed on disk must be exactly the excuse,
+    # Guard: verify the file on disk is byte-for-byte the excuse,
+    # Also bounds the entry to the 1-200 character window.
     # one line, within the 1-200 character limit.
     written = open(OUTPUT_PATH, encoding="utf-8").read()
     assert written == EXCUSE, "entry.txt mismatch"
