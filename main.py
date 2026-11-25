@@ -2,6 +2,7 @@
 """The 3 AM Excuse.
 
 A hardware wallet refuses to sign a transaction at 3 AM.
+Its secure element is on strike until sunrise.
 Writes that one-line excuse to /output/entry.txt.
 Deterministic: constant string, no randomness, no clock, no network.
 """
@@ -25,6 +26,8 @@ def main() -> None:
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8", newline="") as f:
         f.write(EXCUSE)
+    # Post-write guard: what landed on disk must be exactly the excuse.
+    assert open(OUTPUT_PATH, encoding="utf-8").read() == EXCUSE, "entry.txt mismatch"
 
 
 if __name__ == "__main__":
